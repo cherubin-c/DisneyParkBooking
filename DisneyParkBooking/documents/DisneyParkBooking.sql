@@ -1,0 +1,60 @@
+USE [DisneyParkBooking]
+GO
+/****** Object:  Table [dbo].[Bookings]    Script Date: 15-03-2022 16:20:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bookings](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[HotelRefId] [int] NOT NULL,
+	[BookingStartDate] [date] NOT NULL,
+	[BookingEndDate] [date] NOT NULL,
+	[CustomerRefId] [int] NOT NULL,
+ CONSTRAINT [PK_Bookings] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Customers]    Script Date: 15-03-2022 16:20:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customers](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[IdCardPan] [char](10) NOT NULL,
+ CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Hotels]    Script Date: 15-03-2022 16:20:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Hotels](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[Address] [varchar](1500) NULL,
+	[PhotoUrl] [varchar](500) NULL,
+ CONSTRAINT [PK_Hotel] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Bookings]  WITH CHECK ADD  CONSTRAINT [FK_Bookings_Customers] FOREIGN KEY([CustomerRefId])
+REFERENCES [dbo].[Customers] ([Id])
+GO
+ALTER TABLE [dbo].[Bookings] CHECK CONSTRAINT [FK_Bookings_Customers]
+GO
+ALTER TABLE [dbo].[Bookings]  WITH CHECK ADD  CONSTRAINT [FK_Bookings_Hotels] FOREIGN KEY([HotelRefId])
+REFERENCES [dbo].[Hotels] ([Id])
+GO
+ALTER TABLE [dbo].[Bookings] CHECK CONSTRAINT [FK_Bookings_Hotels]
+GO
